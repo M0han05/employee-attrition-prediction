@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result - Employee Attrition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="background-effect"></div>
+    
+    <div class="container fade-in-up">
+        <header class="app-header">
+            <div class="logo-area">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+            </div>
+            <h1>Prediction Result</h1>
+        </header>
+
+        {% if error %}
+        <div class="glass-card error-card">
+            <h2><span class="icon">⚠️</span> Error</h2>
+            <p>{{ error }}</p>
+            <a href="/" class="btn btn-primary">Go Back</a>
+        </div>
+        {% else %}
+        
+        <!-- Result Card -->
+        <div class="glass-card result-card {{ 'result-yes' if prediction == 'Yes' else 'result-no' }}">
+            <div class="result-header">
+                {% if prediction == 'Yes' %}
+                <div class="result-icon pulse-warning">⚠️</div>
+                <h2>High Attrition Risk</h2>
+                <p>This employee is likely to leave the company.</p>
+                {% else %}
+                <div class="result-icon pulse-success">✅</div>
+                <h2>Low Attrition Risk</h2>
+                <p>This employee is likely to stay.</p>
+                {% endif %}
+            </div>
+            
+            <div class="gauge-container">
+                <div class="progress-ring" style="--prob: {{ probability }}%; --ring-color: {{ '#ff4b4b' if prediction == 'Yes' else '#00e676' }};">
+                    <div class="progress-ring-inner">
+                        <div class="prob-value">{{ probability }}%</div>
+                        <div class="prob-label">Probability</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Details Summary -->
+        <div class="glass-card details-card">
+            <h3 class="section-title">Input Summary</h3>
+            <div class="summary-grid">
+                {% if input_details %}
+                    {% for key, value in input_details.items() %}
+                    <div class="summary-item">
+                        <span class="summary-key">{{ key }}</span>
+                        <span class="summary-value">{{ value }}</span>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="action-area">
+            <a href="/" class="submit-btn predict-again-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
+                <span>Predict Again</span>
+            </a>
+        </div>
+        
+        {% endif %}
+
+        <footer class="app-footer">
+            <p>Powered by Machine Learning</p>
+        </footer>
+    </div>
+</body>
+</html>

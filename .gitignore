@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+venv/
+.env
+data/processed/*.csv
+# Ignore baseline models to save space, but track the final deployment models
+models/logistic_regression.pkl
+models/decision_tree.pkl
+models/random_forest.pkl
+models/xgboost.pkl
+
